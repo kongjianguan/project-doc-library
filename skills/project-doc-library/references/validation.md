@@ -2,6 +2,10 @@
 
 The bundled scripts provide structural checks. The target repository remains responsible for its own Markdown, link, generator, build, and CI commands.
 
+## Platform notes
+
+The scripts use `pathlib` for filesystem paths. On Windows, pass repository and Skill roots as native paths such as `C:\work\repository` or forward-slash paths such as `C:/work/repository`. JSON manifest keys and repository-relative Markdown paths intentionally use `/` on every platform; the scripts normalize native paths before comparing them.
+
 ## Initialize
 
 ```sh
@@ -39,7 +43,7 @@ python3 /absolute/path/to/project-doc-library/skills/project-doc-library/scripts
 When auditing the Skill templates for classification, protected hashes, and source-project contamination, run:
 
 ```sh
-python3 /absolute/path/to/project-doc-library/scripts/audit_template_policy.py \
+python3 /absolute/path/to/project-doc-library/skills/project-doc-library/scripts/audit_template_policy.py \
   --skill-root /absolute/path/to/project-doc-library/skills/project-doc-library
 ```
 

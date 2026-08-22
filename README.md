@@ -16,6 +16,6 @@ skills/<skill-name>/
 ├── agents/
 ├── references/
 ├── scripts/
-└── assets/
+├── assets/
+└── tests/
 ```
-

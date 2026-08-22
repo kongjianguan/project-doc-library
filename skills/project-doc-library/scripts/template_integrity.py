@@ -23,6 +23,11 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def manifest_key(path: Path) -> str:
+    """Return the platform-independent key used by the JSON manifest."""
+    return path.as_posix()
+
+
 def manifest_paths(manifest: dict[str, object]) -> tuple[tuple[Path, ...], tuple[Path, ...]]:
     protected = tuple(Path(path) for path in dict(manifest["protected"]).keys())
     adapted = tuple(Path(path) for path in list(manifest["adapted"]))
@@ -52,7 +57,7 @@ def check_template_integrity(skill_root: Path) -> list[str]:
         if not path.is_file():
             continue
         actual_hash = sha256(path)
-        expected_hash = expected_hashes[str(relative)]
+        expected_hash = expected_hashes[manifest_key(relative)]
         if actual_hash != expected_hash:
             errors.append(f"protected template hash differs from manifest: {relative}")
 
