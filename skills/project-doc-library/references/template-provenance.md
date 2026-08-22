@@ -1,6 +1,6 @@
 # Template Provenance
 
-The Skill is derived from the documentation conventions in DeepSeek Harness, but its target-facing templates are normalized so they do not carry that project's product inventory, paths, commands, terminology, or history.
+The Skill distills documentation conventions from DeepSeek Harness into a reusable protocol.
 
 ## Protected protocol templates
 
@@ -21,7 +21,7 @@ These files preserve the reusable protocol: document ownership, Agent Note lifec
 - `docs/postmortem/README.md`
 - `docs/postmortem/README.zh.md`
 
-These files are protected by SHA-256 hashes in [template-manifest.json](template-manifest.json). The hashes protect the Skill's reviewed protocol text; they do not claim byte identity with the source repository.
+These files are protected by SHA-256 hashes in [template-manifest.json](template-manifest.json).
 
 ## Target-adapted templates
 
@@ -31,11 +31,11 @@ These files provide shape and placeholders but must be populated from the target
 - `docs/i18n/terminology.md` records the target's actual translation decisions.
 - `docs/subsystems/README.md` and `.zh.md` index the target's real subsystem pages.
 
-Do not copy source-project names, subsystem inventories, commands, package paths, API catalogs, incident titles, dates, or historical references into a target. Replace every such fact with a target-repository observation or leave the section empty until one exists.
+Populate these entries from the target repository during bootstrap.
 
-## Source and audit
+## Audit
 
-The source material used for distillation is pinned in the manifest for traceability. A local source checkout may be used to review provenance, compare rule coverage, or investigate a future update; it must never be used as a copy source for target-facing files.
+The source commit is pinned in the manifest for traceability.
 
 Run the policy audit from the Skill repository:
 
@@ -44,7 +44,7 @@ python3 /absolute/path/to/project-doc-library/skills/project-doc-library/scripts
   --skill-root /absolute/path/to/project-doc-library/skills/project-doc-library
 ```
 
-The audit fails when a template is unclassified, missing, has a stale protected hash, or contains a forbidden source-project token. It reports protected and adapted hashes separately so a reviewer can see which files are contracts and which files require target population.
+The audit checks template classification, protected hashes, and forbidden tokens.
 
 To check only the protected copy, run:
 

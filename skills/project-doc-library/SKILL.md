@@ -7,7 +7,7 @@ description: Use when bootstrapping or maintaining a repository-local documentat
 
 Build a repository-local documentation system that gives every durable fact one owner, separates design rationale from current reference material, and gives agents a repeatable way to create, update, supersede, translate, validate, and archive documentation.
 
-This skill extracts a project-neutral documentation protocol from DSH. Preserve its useful shape, lifecycle semantics, bilingual pairing rules, and prose discipline, but derive names, subsystems, commands, generators, terminology, and history from the target repository. The protected templates listed in [references/template-provenance.md](references/template-provenance.md) are normalized protocol templates, not DSH product documents; never copy source-project facts into a target repository. Project-generated templates remain target-specific and must be populated from the target repository.
+This skill distills a documentation protocol from DeepSeek Harness. Preserve its useful structure, lifecycle semantics, bilingual pairing rules, and prose discipline, but derive names, subsystems, commands, generators, terminology, and history from the target repository. Read [references/template-provenance.md](references/template-provenance.md) when changing bundled templates.
 
 ## Choose a mode
 
@@ -54,12 +54,12 @@ When bilingual documentation is enabled, both sides carry equal authority. Prese
    ```
 
    Add `--no-bilingual` only when the repository explicitly does not maintain a second language. The initializer does not overwrite existing files.
-4. Read the generated contracts and replace project-neutral wording with facts from the repository. Do not invent subsystem names, commands, validators, or historical decisions.
+4. Read the generated contracts and fill their project-specific sections from repository facts. Leave unknown sections empty until the repository provides the facts.
 5. Write the smallest useful architecture map, subsystem index, and development entry point. Create child pages only when the repository has a real subject for them; do not leave empty placeholders.
 6. Add validation commands or adapters that the repository can actually run. A rule is not complete when its documented command does not exist.
-7. Run the verifier, the repository's narrow documentation checks, and `git diff --check`. Report missing project-specific adapters instead of claiming DSH parity.
+7. Run the verifier, the repository's available documentation checks, and `git diff --check`. Report unavailable checks explicitly.
 
-When changing the bundled templates, keep the protected/adapted split in [references/template-provenance.md](references/template-provenance.md), run the embedded integrity check, and run the template-policy audit. A local DSH checkout is provenance material only; it is never a source for target-facing project facts.
+When changing bundled templates, update the manifest and run the integrity and policy audits.
 
 ## Maintenance workflow
 

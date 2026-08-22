@@ -47,7 +47,7 @@ python3 /absolute/path/to/project-doc-library/skills/project-doc-library/scripts
   --skill-root /absolute/path/to/project-doc-library/skills/project-doc-library
 ```
 
-For an embedded-template check without a DSH checkout, run:
+For an embedded-template integrity check, run:
 
 ```sh
 python3 /absolute/path/to/project-doc-library/skills/project-doc-library/scripts/verify_template_integrity.py
