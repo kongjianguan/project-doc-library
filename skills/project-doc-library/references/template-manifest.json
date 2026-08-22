@@ -1,26 +1,50 @@
 {
-  "schema": 1,
-  "dsh_commit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
-  "canonical": {
-    ".agents/notes/AGENTS.md": "1c1b4a6d771ed1a7b0e4fd83776dd0cfb0567f4e89f2c7b3bc8b61b73e9a01d2",
-    ".agents/notes/README.md": "722a3ed38f137a08121bdd807c1841d7d6bd142ed5bce8033123c7a9247ffd75",
-    ".agents/notes/README.zh.md": "7fe0977144ed5c054434cbc89a9ef3fe2c7871ff0a60e99a9b1fffd26c5b2c5d",
-    ".agents/notes/archived/AGENTS.md": "339e0b9df848026548a96cb614c840732a7becbc36ceda7bce166aad98634b80",
-    ".agents/notes/implemented/AGENTS.md": "d01c6586ab5f807ccdda2e6ec30185416356b13d1f2fddb40d05cdac6d35189c",
-    "docs/AGENTS.md": "1a2573dbb02c43c1be84bd8b670859792da4f46e311110edcde906248e8ee3bf",
-    "docs/i18n/README.md": "59790436531f2dbb9123cda5925f89bdfe368ddd1aa8c491287cec0106a2449f",
-    "docs/i18n/README.zh.md": "2bd67a0f76a726cc3e80013b8a15225c70ae825870a6d61de10cf6ed53eeac86",
-    "docs/i18n/style-samples.md": "0113e0ac7757de37ac6d29690de4b7b540e7afa7359d468ccacecd6c5b5798c2",
-    "docs/i18n/translation-prompt.md": "c3f846fdf959a2df8fd82d3928d778cb51c0adcd1df1d7a95c1161593bcc8fb4",
-    "docs/i18n/translation-rules.md": "4ce7dfea77c4a4bbab5f466820e3d8e471029ff024e22a90892eb451f8e01f48",
-    "docs/i18n/translation-rules.zh.md": "35fc48f26868a45965824c61f38e87f15d6a8a45a4a4818e4136230ccfcd035e",
-    "docs/postmortem/README.md": "2329bb4714a4e38be7e849c0692c595e97176977530bba44660cddef7f92d900",
-    "docs/postmortem/README.zh.md": "661caed2bcb7e7aa3e167dddee84d1c53d3112f4a74225f48f01ceb331132fa5"
+  "schema": 2,
+  "source": {
+    "repository": "https://github.com/deepseek-ai/deepseek-harness",
+    "commit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e"
+  },
+  "protected": {
+    ".agents/notes/AGENTS.md": "047bdf3f57cdc82bf3b5b630871fe2042afb5390515f02a83cae224c87a869b8",
+    ".agents/notes/README.md": "50cd03be9459f942c611d35c79725739a994249b409ddf86d22b62f88a495cf3",
+    ".agents/notes/README.zh.md": "ba15c6ed7337f982bf2c2ebfa1ca0668af805781bd5e1f5e1b81b397f78bf9f6",
+    ".agents/notes/archived/AGENTS.md": "05204f4892746cb0de86ace443931b66a8831e78e4053744c8d217bef8554ac1",
+    ".agents/notes/implemented/AGENTS.md": "593d4a5d9064a31334428c11355f511ae8a77ea45a925f240c0f681ca7627a06",
+    "docs/AGENTS.md": "2bc0de5efccdca8533b8dd515785f29bf73ca3ab665be7db1e5640eb25436041",
+    "docs/i18n/README.md": "5574ac8d4f4c7213fcedaf4cae0b824f5da6b9e729e6adeffb8841eee07da827",
+    "docs/i18n/README.zh.md": "965bbee12d99be626c778c01e917a04127855e3e07ae97533baa2661922c7e6b",
+    "docs/i18n/style-samples.md": "6713e277507e99847b513e8ad0f34a74c96464b7d13e928b82cdfd92a491b2e6",
+    "docs/i18n/translation-prompt.md": "066c269ca0aa2ea2520e5a6c9f7b2569acf39c5ab5024a42575d629da6ae347f",
+    "docs/i18n/translation-rules.md": "ad6d317a47b23f444a19bb934f9aac1e4f2c5766fa4087e9de6315beeb8fbe42",
+    "docs/i18n/translation-rules.zh.md": "acdcd5695d94f21c9fc085a63d52fd81f10b460f0153fd5cdedeb253dc743397",
+    "docs/postmortem/README.md": "8e47fec3b2e57a3aea1550509ad3a0177e09e15e5323d350d35138534a906138",
+    "docs/postmortem/README.zh.md": "3261ed82cf69541b888b40b14a6f0e6753ece0e328858c9a9e6edf8eee35763b"
   },
   "adapted": [
     ".agents/notes/archived/manifest.json",
     "docs/i18n/terminology.md",
     "docs/subsystems/README.md",
     "docs/subsystems/README.zh.md"
+  ],
+  "forbidden_tokens": [
+    "deepseek",
+    "dsh",
+    "cordis",
+    "landlock",
+    "acp",
+    "model experience",
+    "tool-catalog",
+    "config-catalog",
+    "persistence-catalog",
+    "module-graph",
+    "packages/",
+    "pnpm",
+    "verify-",
+    "doc-sync",
+    "agent-note-tree",
+    "translation-pairing",
+    "refs/dsh",
+    "deepseek_api_key",
+    "2026-"
   ]
 }

@@ -1,10 +1,10 @@
 # Template Provenance
 
-The templates are split into two classes so a bootstrap can preserve DSH's documentation contracts without copying DSH's current product inventory.
+The Skill is derived from the documentation conventions in DeepSeek Harness, but its target-facing templates are normalized so they do not carry that project's product inventory, paths, commands, terminology, or history.
 
-## Canonical DSH templates
+## Protected protocol templates
 
-These files are copied from the DSH documentation contract and must remain byte-identical to the selected DSH checkout:
+These files preserve the reusable protocol: document ownership, Agent Note lifecycle, archive semantics, bilingual pairing, translation quality, prose style, and postmortem boundaries.
 
 - `.agents/notes/AGENTS.md`
 - `.agents/notes/README.md`
@@ -21,32 +21,33 @@ These files are copied from the DSH documentation contract and must remain byte-
 - `docs/postmortem/README.md`
 - `docs/postmortem/README.zh.md`
 
-The canonical files carry rules, writing style, pairing mechanics, and lifecycle semantics. They may contain links to DSH-specific examples; those examples are protocol references, not project facts to copy into the target repository.
-The machine-readable [template-manifest.json](template-manifest.json) pins the selected DSH commit and SHA-256 for every canonical file. The initializer refuses to run when an embedded canonical file has drifted from that manifest.
+These files are protected by SHA-256 hashes in [template-manifest.json](template-manifest.json). The hashes protect the Skill's reviewed protocol text; they do not claim byte identity with the source repository.
 
-## Project-generated templates
+## Target-adapted templates
 
-These files keep the DSH shape but must be populated from the target repository:
+These files provide shape and placeholders but must be populated from the target repository:
 
-- `.agents/notes/archived/manifest.json` starts empty and is sealed as notes enter the archive.
-- `docs/i18n/terminology.md` records the target project's actual terms.
-- `docs/subsystems/README.md` and `.zh.md` index the target project's real subsystem pages.
+- `.agents/notes/archived/manifest.json` starts empty and records the target's sealed artifacts.
+- `docs/i18n/terminology.md` records the target's actual translation decisions.
+- `docs/subsystems/README.md` and `.zh.md` index the target's real subsystem pages.
 
-Do not copy DSH's Cordis terminology, subsystem inventory, or archive manifest into another project.
+Do not copy source-project names, subsystem inventories, commands, package paths, API catalogs, incident titles, dates, or historical references into a target. Replace every such fact with a target-repository observation or leave the section empty until one exists.
 
-## Audit
+## Source and audit
 
-Given a local DSH checkout, run:
+The source material used for distillation is pinned in the manifest for traceability. A local source checkout may be used to review provenance, compare rule coverage, or investigate a future update; it must never be used as a copy source for target-facing files.
+
+Run the policy audit from the Skill repository:
 
 ```sh
-python3 /absolute/path/to/project-doc-library/scripts/audit_template_hashes.py \
-  --dsh-root /absolute/path/to/deepseek-harness
+python3 /absolute/path/to/project-doc-library/skills/project-doc-library/scripts/audit_template_policy.py \
+  --skill-root /absolute/path/to/project-doc-library/skills/project-doc-library
 ```
 
-The audit fails when a canonical template differs, when a template is not classified, or when an expected template is missing. It reports differences in project-generated templates without treating them as errors.
+The audit fails when a template is unclassified, missing, has a stale protected hash, or contains a forbidden source-project token. It reports protected and adapted hashes separately so a reviewer can see which files are contracts and which files require target population.
 
-To check the embedded copy without a DSH checkout, run:
+To check only the protected copy, run:
 
 ```sh
-python3 /absolute/path/to/project-doc-library/scripts/verify_template_integrity.py
+python3 /absolute/path/to/project-doc-library/skills/project-doc-library/scripts/verify_template_integrity.py
 ```

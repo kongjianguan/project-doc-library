@@ -5,48 +5,48 @@ The bundled scripts provide structural checks. The target repository remains res
 ## Initialize
 
 ```sh
-python3 /absolute/path/to/project-doc-library/scripts/init_project_docs.py --root /absolute/path/to/repository
+python3 /absolute/path/to/project-doc-library/skills/project-doc-library/scripts/init_project_docs.py --root /absolute/path/to/repository
 ```
 
 The initializer is additive and refuses to replace existing files. Use `--no-bilingual` only when the repository has no second-language contract.
-It also verifies the embedded canonical template manifest before copying anything.
+It also verifies the embedded protected-template manifest before copying anything.
 
 ## Verify
 
 ```sh
-python3 /absolute/path/to/project-doc-library/scripts/verify_project_docs.py --root /absolute/path/to/repository
+python3 /absolute/path/to/project-doc-library/skills/project-doc-library/scripts/verify_project_docs.py --root /absolute/path/to/repository
 ```
 
 Refresh reviewed active pairs with:
 
 ```sh
-python3 /absolute/path/to/project-doc-library/scripts/refresh_i18n_sidecars.py --root /absolute/path/to/repository --write
+python3 /absolute/path/to/project-doc-library/skills/project-doc-library/scripts/refresh_i18n_sidecars.py --root /absolute/path/to/repository --write
 ```
 
 Check exact duplicate prose paragraphs in active project docs with:
 
 ```sh
-python3 /absolute/path/to/project-doc-library/scripts/lint_prose.py --root /absolute/path/to/repository
+python3 /absolute/path/to/project-doc-library/skills/project-doc-library/scripts/lint_prose.py --root /absolute/path/to/repository
 ```
 
 When editing this Skill, run the same check against its entrypoint and references:
 
 ```sh
-python3 /absolute/path/to/project-doc-library/scripts/lint_prose.py \
-  --skill-root /absolute/path/to/project-doc-library
+python3 /absolute/path/to/project-doc-library/skills/project-doc-library/scripts/lint_prose.py \
+  --skill-root /absolute/path/to/project-doc-library/skills/project-doc-library
 ```
 
-When auditing the Skill templates against DSH, run:
+When auditing the Skill templates for classification, protected hashes, and source-project contamination, run:
 
 ```sh
-python3 /absolute/path/to/project-doc-library/scripts/audit_template_hashes.py \
-  --dsh-root /absolute/path/to/deepseek-harness
+python3 /absolute/path/to/project-doc-library/scripts/audit_template_policy.py \
+  --skill-root /absolute/path/to/project-doc-library/skills/project-doc-library
 ```
 
 For an embedded-template check without a DSH checkout, run:
 
 ```sh
-python3 /absolute/path/to/project-doc-library/scripts/verify_template_integrity.py
+python3 /absolute/path/to/project-doc-library/skills/project-doc-library/scripts/verify_template_integrity.py
 ```
 
 The verifier checks:

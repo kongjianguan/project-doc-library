@@ -2,58 +2,57 @@
 
 English | [中文](README.zh.md)
 
-One kind of design doc lives here. An **Agent Note** records a decision or proposal that affects this codebase — the *why* and *what we gave up*, the parts code and docs can't carry. This file defines where Agent Notes live, when to write one, and [the in-file format](#the-file-format).
+An **Agent Note** records a decision or proposal that affects the repository: the why, the alternatives, and the consequences that source code and ordinary reference docs cannot carry. This file defines where Agent Notes live, when to write one, and [the in-file format](#the-file-format).
 
 ## Layout and naming
 
-Every Agent Note has two axes, both encoded in its **path** — `{lifecycle}/{class}/yyyy-mm-dd-topic-title.md`:
+Every Agent Note has two axes, both encoded in its path: `{lifecycle}/{class}/yyyy-mm-dd-topic-title.md`.
 
-- **Lifecycle** (the top-level folder) is the Agent Note's status, and an Agent Note moves between folders as that status changes:
-  - **`proposed/`** — proposals reviewed before implementation; not yet built (or only partly).
-  - **`implemented/`** — the decision shipped. The file records what was decided and what was rejected, and is **kept current with what actually shipped**: when the code later moves a file, renames a package, or changes a key/default, the Agent Note is updated in the same change to match (facts only — paths, names, structure — not the decision itself). See [implemented/AGENTS.md](implemented/AGENTS.md).
-  - **`rejected/`** — the proposal was considered and declined. Keep it only while its rationale prevents a tempting, meaningful mistake; otherwise delete the complete triplet.
-- **Class** (the nested folder) is the *kind* of decision — see [Classification](#classification) below.
+- **Lifecycle** is the top-level folder and the note's status. `proposed/` holds work that is under consideration, `implemented/` holds a shipped decision, and `rejected/` holds a considered proposal that was declined.
+- **Class** is the nested folder and the kind of decision. The repository keeps this set closed so placement stays searchable and mechanically checkable.
 
-The date in the filename is when the topic was **first proposed** (per git history). Cross-references between Agent Notes use relative markdown links (`[topic](../../implemented/architecture/2026-…-….md)`) — never bare prose or numbers — so they are mechanically checkable and survive moves between folders.
+The date in the filename is when the topic was first proposed. Cross-references use relative Markdown links, never bare numbers or informal references, so they remain checkable when a note moves between lifecycles.
 
-The active lifecycle tree is the working inventory: browse its lifecycle/class folders or search the repository. Do not add a centralized `INDEX.md`; the [no-index Agent Note](implemented/process/2026-07-19-remove-generated-agent-note-index.md) owns the rationale. Low-future-value implemented records move to the separate frozen [`archived/`](archived/AGENTS.md) tree described below.
+The active lifecycle tree is the working inventory. Browse its class folders or search the repository; do not create a central index unless the repository has a specific, recorded reason to need one. Implemented records with little future decision value move to the separate frozen `archived/` tree described below.
 
 ## Classification
 
-Each Agent Note belongs to one path-encoded class from the closed set in `scripts/agent-note-tree.ts`; the classification gate rejects other folders. Adding a class requires updating the canonical set and this section. See the [classification Agent Note](implemented/process/2026-06-20-agent-note-classification.md).
+Each note belongs to one class from the repository's closed set. A typical set is:
 
 | Class | What it covers |
 |---|---|
-| `feature` | A new user- or model-facing capability. |
-| `bug-fix` | Corrects a defect or closes a gap a postmortem surfaced. |
-| `simplification` | Removes code, behavior, or surface area without adding a capability. |
-| `architecture` | A structural decision about the **shipped source** — how packages relate, what the runtime vocabulary is. |
-| `process` | Tooling, policy, or workflow **around** the code — gates, the package manager, vendoring — not runtime behavior. |
-| `testing` | Test infrastructure and strategy. |
+| `feature` | A new user- or system-facing capability. |
+| `bug-fix` | A correction prompted by a defect or a discovered gap. |
+| `simplification` | Removal of code, behavior, or surface area without adding a capability. |
+| `architecture` | A structural decision about the shipped source and its boundaries. |
+| `process` | Tooling, policy, or workflow around the source and releases. |
+| `testing` | Test infrastructure, coverage strategy, or verification design. |
 
-The `architecture` / `process` line: **architecture** is about the source we ship; **process** is the surrounding tooling and workflow. (`refactor` is deliberately absent — it overlaps `simplification`, whose discriminator, "does observable behavior change?", already covers it.)
+Keep the architecture/process boundary explicit: architecture describes what the system ships; process describes the surrounding tooling and workflow. Do not add a `refactor` class when its subject is already covered by simplification or architecture.
 
 ## Archiving and deletion
 
-Archive an implemented Agent Note when the shipped decision is complete and its rationale is unlikely to guide future work. Keep it active when its alternatives, ownership boundary, negative guarantee, durable or wire semantics, security rule, or reintroduction condition remains useful. Never archive a proposed note: reject an obsolete proposal. Keep a rejected note only while it prevents a plausible mistake; otherwise delete its English, Chinese, and sidecar files together. Use the calibrated [`dsh-archive-agent-notes`](../skills/dsh-archive-agent-notes/SKILL.md) workflow rather than word count, age, or a target quota.
+Archive an implemented note when its decision is complete and its rationale is unlikely to guide future work. Keep it active when its alternatives, ownership boundary, negative guarantee, durable or wire semantics, security rule, or reintroduction condition remains useful. Never archive a proposed note; reject an obsolete proposal.
 
-The archive is path-encoded as `archived/{class}/yyyy-mm-dd-topic-title.md`; `implemented` is deliberately absent because only implemented notes can enter it. An archival change moves the complete English/Chinese/sidecar triplet, retains `Status: implemented`, inserts the same `Archived: YYYY-MM-DD` line immediately below that status in both language files, re-records the sidecar, and repairs or deletes inbound links. These are the only permitted content changes during archival.
+Keep a rejected note only while its rationale prevents a plausible mistake. Otherwise delete its English, Chinese, and sidecar files together. Use the repository's archive workflow when one exists; age, word count, and a target quota are not archive criteria.
 
-Once sealed, every archived triplet is permanently frozen. Do not edit, translate, reformat, update, move, or delete it, and do not treat it as authority for current behavior. Documentation gates skip archived sources, including their outbound links; active prose may still link into an archived note when it intentionally cites history. [`verify-archived-agent-notes`](../../scripts/verify-archived-agent-notes.ts) enforces the closed class tree, complete triplets, archive metadata, sidecar hashes, and the append-only frozen-content manifest. The [archive-policy Agent Note](implemented/process/2026-07-26-frozen-agent-note-archive.md) owns the rationale.
+The archive path is `archived/{class}/yyyy-mm-dd-topic-title.md`; `implemented` is deliberately absent because only implemented notes can enter it. An archival change moves the complete English/Chinese/sidecar triplet, retains `Status: implemented`, inserts the same `Archived: YYYY-MM-DD` line immediately below that status in both language files, re-records the sidecar, and repairs or deletes inbound links. These are the only permitted content changes during archival.
+
+Once sealed, every archived triplet is permanently frozen. Do not edit, translate, reformat, update, move, or delete it, and do not treat it as authority for current behavior. A repository archive verifier should enforce the closed class tree, complete triplets, archive metadata, sidecar hashes, and an append-only content manifest.
 
 ## When to write one
 
-Every non-trivial change MUST add or update at least one Agent Note in the same PR. A change is non-trivial when it alters behavior, architecture, a contract shared across files or packages, process or tooling, testing strategy, an on-disk, wire, or configuration format, or another decision a maintainer may reasonably revisit. A proposal for substantial future work starts in `proposed/`; a decision already made starts in `implemented/`. Pick the class folder that matches the decision (see [Classification](#classification)).
+Every non-trivial change MUST add or update at least one Agent Note in the same change. A change is non-trivial when it alters behavior, architecture, a contract shared across files, process or tooling, testing strategy, an on-disk, wire, or configuration format, or another decision a maintainer may reasonably revisit. A proposal for substantial future work starts in `proposed/`; a decision already made starts in `implemented/`.
 
-Updating the Agent Note that already owns the decision satisfies the rule; do not create a duplicate. Only a purely mechanical or local edit with no change to behavior, contracts, structure, process, or rationale is exempt. An Agent Note is never edited into a *different decision*: supersede it with a new one, and keep both notes cross-linked unless the old note is later fully consolidated under the rule below. Editing an `implemented/` Agent Note to track where its existing decision lives is required, not forbidden; see [implemented/AGENTS.md](implemented/AGENTS.md).
+Updating the note that already owns the decision satisfies the rule; do not create a duplicate. A note is never edited into a different decision: supersede it with a new note, and keep both notes cross-linked unless the old note is later fully consolidated.
 
-An implemented Agent Note that is fully superseded may be consolidated into the current owning note and deleted. Before deletion, the owner must preserve every unique rationale, alternative, consequence, required verification, and named coverage gap; repair every inbound link; and delete the Chinese counterpart and consistency record in the same change. Partial supersession does not qualify: keep both notes cross-linked and update every fact that remains current. Consolidation must not rewrite the old file into its opposite or rely on git history as the only copy of rationale.
+An implemented note that is fully superseded may be consolidated into the current owning note and deleted. Before deletion, preserve every unique rationale, alternative, consequence, required verification, and named coverage gap; repair every inbound link; and delete the Chinese counterpart and consistency record in the same change. Partial supersession keeps both notes active and cross-linked.
 
-A feature-addition note may be consolidated into the later removal note only when the feature is absent from production code, configuration, schemas, durable or wire formats, migration, and compatibility behavior; no current documentation presents it as available; and no test exercises it as supported behavior. Removal rationale and tests that verify absence may remain. The removal owner preserves the original motivation, why it no longer justified the feature, alternatives to full removal, the capability given up, conditions for reintroduction, and verification of complete absence. Obsolete implementation inventories and tests that only verified the deleted behavior are not current verification evidence. Removing one transport, default, implementation, or presentation is partial supersession, as is any surviving durable data or compatibility handling.
+A feature-addition note may be consolidated into a later removal note only when the feature is absent from production code, configuration, schemas, durable or wire formats, migration, compatibility behavior, current documentation, and supported tests. The removal owner preserves the original motivation, why it no longer justified the feature, alternatives to full removal, the capability given up, reintroduction conditions, and verification of complete absence.
 
 ## The file format
 
-Every active Agent Note follows one in-file format, enforced by `pnpm run verify-agent-note-format` ([scripts/verify-agent-note-format.ts](../../scripts/verify-agent-note-format.ts), part of `doc-sync`); the rationale for the format — and the alternatives it rejected — is [the uniform-format Agent Note](implemented/process/2026-07-05-uniform-agent-note-format.md). Archived notes retain the format they had when sealed plus the archive-date line above.
+Every active Agent Note follows one in-file format. Archived notes retain the format they had when sealed plus the archive-date line above.
 
 ### The header block
 
@@ -65,52 +64,52 @@ The first three lines of every Agent Note are exactly:
 Status: <status>
 ```
 
-followed by a blank line. The `Status:` value is one of three forms, and must agree with the lifecycle folder the file sits in — the gate cross-checks them:
+The status must agree with the lifecycle folder:
 
 - `Status: proposed`
 - `Status: implemented`
 - `Status: rejected — <why, in one line>`
 
-The status carries no dates and no parentheticals: the filename holds the first-proposed date, git holds everything else, and an "accepted in amended form" note is body content (state the amendment where the decision is stated). The rejection reason is the one status with content, because a rejected Agent Note's verdict is the fact readers come for.
+The status carries no dates or parentheticals. The filename holds the first-proposed date, and the body records amendments. A rejection reason is the one status form with content because it is the fact readers need immediately.
 
 ### The body skeleton
 
-Every Agent Note opens its body with `## Problem` — the motivation, written to stand without the solution. What follows depends on the lifecycle; recurring sections use these canonical names and nothing else, while genuinely bespoke technical sections (package topology, wire contracts, schemas) remain free-form between the required ones.
+Every Agent Note opens with `## Problem`, which states the motivation without assuming the solution. Recurring sections use the canonical names below; genuinely bespoke technical sections may appear between the required sections.
 
 #### `proposed/`
 
 ```markdown
 ## Problem
 ## Proposal
-…bespoke sections…
+... bespoke sections ...
 ## Alternatives considered
 ## Acceptance criteria
 ## Risks
 ```
 
-`## Proposal` is the intended change and may legitimately speak in the future tense — plans, migration steps, and open questions belong here while the work is unbuilt. `## Acceptance criteria` says what observable state means done. `## Risks` covers both what could go wrong and what the change knowingly gives up.
+`## Proposal` may speak in the future tense. Plans, migration steps, and open questions belong there while the work is unbuilt. `## Acceptance criteria` says what observable state means done. `## Risks` covers what could go wrong and what the change knowingly gives up.
 
 #### `implemented/`
 
 ```markdown
 ## Problem
 ## Decision
-…bespoke sections…
+... bespoke sections ...
 ## Alternatives considered
 ## Consequences
 ```
 
-`## Decision` describes shipped reality in the present tense, and the whole file is kept current with it per [implemented/AGENTS.md](implemented/AGENTS.md). `## Consequences` records what the trade-off cost **and** bought. Proposal-era headings are spec-speak here and the gate rejects them: `## Proposal`, `## Plan`, `## Migration plan`, and `## Acceptance criteria` may not appear in an implemented Agent Note (the [slop checklist](../../docs/AGENTS.md) names why). A `## Testing`, `## Deferred`, or `## Related` section is fine where it states present-tense fact.
+`## Decision` describes shipped reality in the present tense, and the whole file stays current with it. Proposal-era headings such as `## Proposal`, `## Plan`, `## Migration plan`, and `## Acceptance criteria` do not belong in an implemented note. A `## Testing`, `## Deferred`, or `## Related` section is fine when it states present-tense fact.
 
 #### `rejected/`
 
-A rejected Agent Note is the proposal, frozen: it keeps whatever proposal-time sections it had (including `## Acceptance criteria` or `## Plan`), and the verdict lives on the `Status:` line. Only the header block, the `## Problem` opener, a `## Proposal` section, and the Alternatives-considered mandate below apply.
+A rejected note is the proposal, frozen. It keeps its proposal-time sections, and the verdict lives on the `Status:` line. The header block, `## Problem`, `## Proposal`, and the alternatives mandate still apply.
 
-### Alternatives considered — mandatory
+### Alternatives considered - mandatory
 
-Every Agent Note carries an `## Alternatives considered` section: each genuine alternative and why it lost, one bold-led paragraph per alternative or a `### Why not <X>?` subsection per contested one. A decision recorded without what it beat invites re-litigation — the failure Agent Notes exist to prevent.
+Every Agent Note carries an `## Alternatives considered` section. Record each genuine alternative and why it lost, with one bold-led paragraph or a `### Why not <X>?` subsection per contested alternative. Alternatives are recorded, never invented.
 
-Alternatives are recorded, never invented. An Agent Note dated before 2026-07-05 whose alternatives are not reconstructible from the record carries this exact comment in place of the section, which the gate accepts for pre-format files only:
+For an older note whose alternatives cannot be reconstructed, keep this exact marker in place of the section when the repository's format policy permits it:
 
 ```markdown
 <!-- agent-note-format: alternatives-not-recorded (pre-format Agent Note) -->
@@ -118,8 +117,8 @@ Alternatives are recorded, never invented. An Agent Note dated before 2026-07-05
 
 ### Moving between lifecycles
 
-Moving a file between lifecycle folders means updating the `Status:` line and re-satisfying that folder's skeleton in the same change — the gate fails the move otherwise. Concretely, `proposed/` → `implemented/` rewrites `## Proposal` into a present-tense `## Decision`, folds `## Acceptance criteria` and `## Risks` into `## Consequences` (or a present-tense `## Testing`/`## Verification` section for what now pins the behavior), and drops plans in favor of what shipped — the rewrite [implemented/AGENTS.md](implemented/AGENTS.md) requires, made mechanical. `proposed/` → `rejected/` only adds the reason to the `Status:` line and freezes the file.
+Moving a file between lifecycle folders means updating the `Status:` line and satisfying the destination skeleton in the same change. A `proposed/` to `implemented/` move rewrites `## Proposal` into a present-tense `## Decision`, folds acceptance criteria and risks into `## Consequences` or present-tense verification sections, and removes plans in favor of what shipped. A `proposed/` to `rejected/` move adds the reason to the `Status:` line and freezes the file.
 
 ### Chinese counterparts
 
-A `.zh.md` counterpart mirrors its English sibling's structure section-for-section under the [i18n contract](../../docs/i18n/README.md); the machine-checked header tokens (`# Agent Note: ` and the `Status:` line) stay in English verbatim. The format gate skips `.zh.md` files — the pairing gate checks their consistency.
+A `.zh.md` counterpart mirrors its English sibling section for section under the [i18n contract](../../docs/i18n/README.md). Machine-checked header tokens, including `# Agent Note: ` and `Status:`, stay in English verbatim. The format checker may skip the Chinese file; the pairing checker owns its consistency.

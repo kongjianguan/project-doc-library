@@ -1,75 +1,65 @@
-# AGENTS.md — The documentation standard
+# AGENTS.md - Documentation Standard
 
-This file defines document structure, Markdown tiers, writing rules, and `verify-doc-budgets` ceilings. Use [dsh-doc-standards](../.agents/skills/dsh-doc-standards/SKILL.md) for placement and validation, and [dsh-prose-standard](../.agents/skills/dsh-prose-standard/SKILL.md) for required coverage and editorial judgment; the [doc-tiers Agent Note](../.agents/notes/implemented/process/2026-07-04-doc-tiers-and-budgets.md) owns rationale.
+This file defines document placement, documentation tiers, writing rules, and any repository-specific documentation budgets. Use the repository's own validation commands when present; this file owns documentation boundaries and prose, not implementation-specific checks.
 
 ## Document structure
 
-These rules apply to human-facing documentation; [Agent Notes](../.agents/notes/README.md) remain outside their scope. A [postmortem](postmortem/README.md) is an incident-scoped reference; chronology records evidence, not a teaching sequence. A document's subject and tree position fix its scope: describe its own subject at appropriate detail and direct children only by purpose, responsibility, and high-level behavior; link to the owning descendant for lower-level detail. Document type does not widen that scope. A reference may be exhaustive only about its own subject. Testing mechanisms, fixtures, and harnesses belong at the lowest owning level; higher documents link there.
+These rules apply to human-facing documentation. Agent Notes remain under `.agents/notes/` and use their own lifecycle and file-format rules. A document's subject and tree position determine its scope: describe the subject at the detail appropriate to that position, and link to the owning descendant for lower-level facts.
 
-Classify every in-scope document as a tutorial or reference. Tutorials follow an ordered path to an outcome and introduce only what each step needs. References define a lookup scope and current behavior without a teaching sequence. Separate substantial tutorial and reference content; label a section when either part is small.
+Classify each document as a tutorial or a reference. Tutorials lead a reader through an ordered path to an observable outcome. References define a lookup scope and current behavior without a teaching sequence. Separate substantial tutorial and reference material; label a section when either part is small.
 
-Before writing a tutorial, privately classify the reader's starting knowledge and each concept as beginner, intermediate, or advanced. Establish prerequisites before dependent concepts, increase difficulty gradually, and move unnecessary advanced material to a later tutorial or reference.
+Before writing a tutorial, classify the reader's starting knowledge and each concept as beginner, intermediate, or advanced. Establish prerequisites before dependent concepts, increase difficulty gradually, and move unnecessary advanced material to a later tutorial or reference.
 
-Author in this order: locate the document in the tree; set its permitted detail; choose tutorial or reference; for a tutorial, order concepts by prerequisite and difficulty; relocate descendant-owned detail; replace lower-level explanations with links to their owners.
+Author in this order: locate the document in the tree; set its permitted detail; choose tutorial or reference; order tutorial concepts by prerequisite and difficulty; relocate descendant-owned detail; replace lower-level explanations with links to their owners.
 
 ## The tier taxonomy: one home per fact
 
-Each fact has one home: the tier whose job it is; elsewhere, link there.
+Each fact has one home: the tier whose job is to own it. Elsewhere, link to that home.
 
 | Tier | Job | Does NOT belong there |
 |---|---|---|
-| Root `AGENTS.md` | Standing orders: rules an agent needs in context in every session, one to three lines each, linking its home | Stories, worked examples, situational procedures, anything restated from a linked home |
-| Subtree `AGENTS.md` (`packages/`, `examples/`, `docs/`, `.agents/notes/`) | Orders specific to that subtree | Repo-wide rules the root file already carries |
-| [architecture.md](architecture.md) | Ordered map: composition, core packages, loop, seams, extension points; read before changing `packages/` | Type definitions (→ subsystems), per-package detail (→ package READMEs), decision rationale (→ Agent Notes), implementation-status annotations |
-| [subsystems/](subsystems/README.md) | One reference page per subsystem: type definitions, semantics, and the generated Cordis API | Behavior narration (→ architecture.md) |
-| [Agent Notes](../.agents/notes/README.md) | Active decision records: the why, what-was-given-up, and required verification; `implemented/` notes describe shipped reality in present tense | Migration plans, acceptance-task checklists, fixture walkthroughs, and spec-speak ("should…") once the decision has shipped; archived notes are frozen history, never current authority |
-| [postmortem/](postmortem/README.md) | Incident stories — the only tier where war-story narrative belongs | — |
-| [cookbook/](cookbook/adding-a-package.md) | Step-by-step how-tos with numbered verify steps | Design rationale (→ the Agent Note each guide links) |
-| [user/](user/index.md) | Product-facing guides published by the documentation website | Generated reference tables, contributor procedures, decision history |
-| Package README | The per-package contract: config, semantics, limitations, extension points, and [Model Experience](cookbook/adding-a-package.md#4-write-the-package-readme) | JSDoc restatement, generated-catalog restatement (event/tool tables), other packages' concerns |
-| [development.md](development.md) | Contributor setup, daily workflow, and a summary of CI; a bilingual pair under the [i18n contract](i18n/README.md) | Runtime/version rationale (→ Agent Notes), check-by-check lists that drift from `package.json` scripts |
-| Generated reference: the per-page `cordis-surface` regions in [subsystems/](subsystems/README.md), the [Cordis core API + inherited tier](cordis-api/context.md), [tool-catalog](tool-catalog.md), [config-catalog](config-catalog.md), [persistence-catalog](persistence-catalog.md), [module-graph.md](module-graph.md) | Exhaustive English sources regenerated from source and freshness-gated; reviewed Chinese counterparts follow the [pairing workflow](i18n/README.md#scope-and-exclusions) | Hand edits to generated English sources or regions; Chinese counterparts update through pairing only |
-| Skills (`.agents/skills/`) | Reusable workflows and specialized decision standards | Product and runtime contracts (→ docs or source) |
+| Root `AGENTS.md` | Standing instructions needed in every session, with links to their homes | Stories, worked examples, situational procedures, or duplicated policy |
+| Subtree `AGENTS.md` | Instructions specific to one directory | Repository-wide rules already owned by the root file |
+| Architecture reference | Composition, boundaries, lifecycles, dependencies, and extension points | Type catalogs, package detail, decision rationale, or status annotations |
+| Subsystem reference | Types, semantics, invariants, public entry points, and failure behavior for one subsystem | Repository-wide behavior narration |
+| Agent Notes | Decisions, alternatives, trade-offs, and required verification | Current reference facts, migration checklists, or shipped plans |
+| Postmortems | Evidence and guardrails for subtle, systemic failures | Ordinary feature design or routine bug descriptions |
+| Cookbook | Step-by-step procedures with observable verification | Design rationale or exhaustive reference tables |
+| User documentation | Product-facing guides and task-oriented explanations | Contributor procedures, generated catalogs, or decision history |
+| Component README | The component's contract, configuration, limitations, and extension points | JSDoc restatement or other components' concerns |
+| Generated reference | Exhaustive facts regenerated from source or a generator | Hand edits to generated output |
+| Skills and agent instructions | Reusable workflows and standing orders | Product or runtime contracts that belong in source or docs |
 
-Placement: bugs → postmortems; rationale → Agent Notes; procedures → cookbooks; type definitions → subsystems; package contracts → READMEs; standing orders → root `AGENTS.md` with a rationale link.
+Placement follows purpose: incidents belong in postmortems; rationale belongs in Agent Notes; procedures belong in cookbooks; type and subsystem contracts belong in subsystem references; component contracts belong in component READMEs; standing orders belong in the nearest applicable `AGENTS.md`.
 
 ## Writing rules
 
-- **Document current state, not change history.** Avoid "previously/now/no longer", PRs, commits, and stack positions in durable prose; name the live mechanism. Put change stories in commits, PRs, Agent Notes, or postmortems; the latter two may cite merged PRs and issues as evidence.
-- **Every non-trivial change includes at least one Agent Note in the same PR.** Update the owning note or add one; only mechanical/local edits are exempt ([scope](../.agents/notes/README.md#when-to-write-one)).
-- **One physical line per paragraph** (`verify-md-wrap`): use editor soft-wrap. Code blocks, tables, and list structure keep their formatting; code comments stay under the linter's column limit.
-- **Fenced `ts` blocks must compile** (`doc-typecheck`); a pasted type declaration and its original JSDoc use ` ```ts type-equiv `, while a body-stripped public class declaration uses ` ```ts public-api `; register either in the manifest so neither can drift ([mechanics](development.md#documenting-types-verbatim-ts-type-equiv)).
-- **The owning [subsystems page](subsystems/README.md) updates in the same change** that reshapes a documented type. `verify-type-equiv` catches drifted pastes, not never-documented new types; a type is documented on its declaring package group's page ([page scoping](../.agents/notes/implemented/process/2026-08-03-package-anchored-subsystem-pages.md)).
-- **Pairs update together**: [Terminology-guided](i18n/terminology.md), single-pass active-agent work repositions first-use annotations, preserves untouched prose, and re-records; `dsh-translate-docs` remains user-invoked ([contract](i18n/README.md)).
-- **Comments and JSDoc state complete contracts, not reasoning transcripts.** Preserve behavior, failure, timing, ownership, modality, exceptions, consequences, and non-obvious orientation; delete narration, test walkthroughs, review analysis, and code restatement. Keep the local contract and link its rationale. Use [dsh-prose-standard](../.agents/skills/dsh-prose-standard/SKILL.md) for details.
-- Write directly: name actors and facts ([decision](../.agents/notes/implemented/process/2026-08-09-concrete-prose-names-actors-and-recorded-facts.md)). Reserve `seam` for the defined capability. Name the exact check, type, API, operation, or behavior instead of metaphorical "gate", "vocabulary", or "surface".
+- **Document current state, not change history.** Avoid narrated transitions, review chronology, branch position, and commit history in durable prose. Put history in commits, decision records, or postmortems when it is needed as evidence.
+- **Every non-trivial change includes an Agent Note.** Update the note that already owns the decision or add one in the same change. A purely mechanical or local edit is the narrow exception.
+- **Keep one physical line per paragraph** when the repository's Markdown checks require it. Preserve code blocks, tables, and list structure.
+- **Keep source-derived facts source-owned.** Link to a declaration or regenerate a reference instead of maintaining a second signature, option, or catalog by hand.
+- **Keep bilingual pairs together.** Update both languages and the consistency record in the same change when the repository has an i18n contract.
+- **Comments and JSDoc state complete contracts.** Preserve behavior, failure, timing, ownership, modality, exceptions, and non-obvious orientation. Remove implementation narration, test walkthroughs, review analysis, and code restatement.
+- **Write directly.** Name the actor, fact, boundary, operation, and verification. Use normative keywords only when their enforcement strength matters.
+- **Use links for ownership.** Do not repeat a rule or catalog in several homes merely to make a page feel complete.
 
-## Wordcount Budgets
+## Documentation budgets
 
-[scripts/doc-budgets.manifest.json](../scripts/doc-budgets.manifest.json) sets standing-doc ceilings; `pnpm run verify-doc-budgets` rejects excess or missing files.
-
-When the gate goes red:
-
-1. **Relocate** content that belongs in another tier; leave a one-line link if needed.
-2. **Condense** content that belongs here but can be shorter.
-3. **Raise** the ceiling only when the words need the space; justify the manifest diff in the PR. A too-low ceiling is a budget bug.
-
-Ceilings are guardrails, not reduction targets. At or below target, retain at least 5% headroom; above target, freeze the ceiling until relocation or condensation brings the document under target. Lower a ceiling only when the document still has room, and raise it when content would otherwise be deleted. Targets: root `AGENTS.md` ≤ 1,600 words; `architecture.md` ≤ 1,800; subtree `AGENTS.md` ≤ 600, except `packages/AGENTS.md` ≤ 650 and this file ≤ 1,250; `packages/README.md` ≤ 600. Review governs unbudgeted tiers.
+If the repository has a documentation budget manifest, treat its ceilings as guardrails. When a document exceeds its ceiling, first relocate content to its owning tier, then condense duplicated or unnecessary prose. Raise a ceiling only when the document needs the space and the manifest change records why. A budget is not a target for deleting useful detail.
 
 ## The slop checklist
 
-Hunt these in any doc; [dsh-doc-standards](../.agents/skills/dsh-doc-standards/SKILL.md) runs this list as an audit:
+Before finalizing a document, check for:
 
-- The same rule stated in more than one home. Grep a distinctive phrase; keep one home and link the rest.
-- Narrated history or war stories: "previously", "now", "no longer", "used to", "renamed", "was moved", PRs, or commits. State the current fact; link an Agent Note or postmortem when needed.
-- Implementation-status annotations in prose or diagrams ("implemented!", "future: …"). Status rots; the repo layout and package manifests carry it.
-- Hand-restated catalogs, JSDoc, or inventories of tests, packages, and status when source or a generator is authoritative.
-- Reasoning transcripts: step-by-step implementation narration, proof of obvious branches, test walkthroughs, or rejected local alternatives. Keep the resulting contract or durable rationale; delete the path used to derive it.
-- Rationale repeated beside sibling methods instead of once at the owning capability or helper.
-- Paragraph walls: one paragraph carrying several rules and parenthetical asides. Split it or demote the detail to its home.
-- Emphasis inflation: bold, CAPS, or "critically" everywhere means nothing stands out. Reserve emphasis for the clause that changes behavior.
-- Spec-speak in `implemented/` Agent Notes: "should", migration plans, acceptance checklists. An implemented Agent Note describes what is, per the [implemented-note instructions](../.agents/notes/implemented/AGENTS.md).
+- the same rule stated in more than one home;
+- narrated history or implementation-status labels in current reference prose;
+- hand-maintained catalogs where source or a generator is authoritative;
+- reasoning transcripts, obvious branch walkthroughs, or rejected local alternatives;
+- rationale repeated beside sibling APIs instead of at the owning capability;
+- paragraphs carrying several unrelated rules and parenthetical asides;
+- excessive bold, capitals, or warning language;
+- proposal language, migration plans, or acceptance checklists left in an implemented Agent Note.
 
-## Cross-reference with machine-checkable links, never free prose
+## Cross-references
 
-Link repository references with relative Markdown paths, never bare filenames or Agent Note numbers. `verify-md-links` rejects missing targets and dead `#fragment` anchors ([rationale](../.agents/notes/implemented/process/2026-06-18-markdown-cross-link-lint.md)).
+Use relative Markdown links for repository references. Link to the owning document, source declaration, generator, or decision record instead of naming it only in prose. Run the repository's link checker after moving or removing a document.

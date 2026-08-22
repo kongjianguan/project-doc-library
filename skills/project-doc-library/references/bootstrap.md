@@ -7,14 +7,14 @@ Create a usable documentation library without fabricating project knowledge. The
 ## Discovery order
 
 1. Read the root `AGENTS.md` and every applicable subtree instruction.
-2. Read `memory/`, existing `docs/`, package READMEs, source JSDoc, generators, and validation scripts. Treat the canonical DSH protocol templates listed in [template-provenance.md](template-provenance.md) as contract text; preserve them in full when bootstrapping rather than rewriting them into shorter project-specific summaries.
+2. Read `memory/`, existing `docs/`, component READMEs, source JSDoc, generators, and validation scripts. Treat the protected protocol templates listed in [template-provenance.md](template-provenance.md) as reusable contract text; preserve their rules and structure while replacing all target facts with findings from the target repository.
 3. Record the repository's package manager, test commands, build commands, document languages, and generated-file conventions.
 4. Locate existing architecture, API, tutorial, incident, and decision documents. Do not move them until inbound links and ownership are understood.
 5. Identify facts that are already generated. The generator remains their source of truth.
 
 ## Initial tree
 
-The initializer creates the DSH-shaped skeleton below and skips files that already exist:
+The initializer creates the structured skeleton below and skips files that already exist:
 
 ```text
 .agents/notes/
@@ -44,7 +44,7 @@ The class set is deliberately closed. Add a class only when the repository has a
 
 The i18n contract excludes instruction files, frozen archived notes, bilingual-by-construction terminology and style samples, and machine-consumed translation prompts. Do not add sidecars for those exclusions.
 
-The bundled templates distinguish canonical DSH contract files from project-generated files. Canonical files preserve DSH text and style; the archive manifest, terminology table, and subsystem index are populated from the target repository.
+The bundled templates distinguish protected protocol files from target-adapted files. Protected files preserve normalized rules and style; the archive manifest, terminology table, and subsystem index are populated from the target repository.
 
 ## After scaffolding
 
