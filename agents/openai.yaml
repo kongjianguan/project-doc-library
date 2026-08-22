@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Documentation Library"
+  short_description: "Bootstrap and maintain DSH-style project documentation"
+  default_prompt: "Use $project-doc-library to bootstrap or maintain a DSH-style project documentation library."
