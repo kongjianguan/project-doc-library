@@ -19,9 +19,9 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def canonical_files() -> set[str]:
+def protected_files() -> set[str]:
     manifest = load_manifest()
-    return set(dict(manifest["canonical"]).keys())
+    return set(dict(manifest["protected"]).keys())
 
 
 def prose_blocks(path: Path) -> list[tuple[int, str]]:
@@ -70,14 +70,14 @@ def main() -> int:
         if not root.is_dir():
             print(f"error: repository root is not a directory: {root}", file=sys.stderr)
             return 2
-        canonical = canonical_files()
+        protected = protected_files()
         paths: list[tuple[Path, str]] = []
         for base in (root / ".agents/notes", root / "docs"):
             if not base.is_dir():
                 continue
             for path in sorted(base.rglob("*.md")):
                 relative = path.relative_to(root).as_posix()
-                if path.is_symlink() or relative in canonical or "archived" in path.relative_to(base).parts:
+                if path.is_symlink() or relative in protected or "archived" in path.relative_to(base).parts:
                     continue
                 paths.append((path, relative))
     else:

@@ -34,7 +34,7 @@ BASE_DIRECTORIES = (
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Initialize a DSH-shaped project documentation library."
+        description="Initialize a structured project documentation library."
     )
     parser.add_argument("--root", required=True, type=Path, help="repository root")
     parser.add_argument(

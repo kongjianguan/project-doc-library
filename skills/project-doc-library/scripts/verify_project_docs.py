@@ -20,7 +20,7 @@ REQUIRED_NOTE_HEADINGS = {
 }
 FORBIDDEN_IMPLEMENTED_HEADINGS = ("Proposal", "Plan", "Migration plan", "Acceptance criteria")
 NOTE_FILENAME = re.compile(r"^\d{4}-\d{2}-\d{2}-[a-z0-9]+(?:-[a-z0-9]+)*\.md$")
-CANONICAL_PROTOCOL_FILES = frozenset(
+TEMPLATE_CONTRACT_FILES = frozenset(
     {
         ".agents/notes/AGENTS.md",
         ".agents/notes/README.md",
@@ -41,7 +41,7 @@ CANONICAL_PROTOCOL_FILES = frozenset(
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Verify a DSH-shaped project documentation library.")
+    parser = argparse.ArgumentParser(description="Verify a structured project documentation library.")
     parser.add_argument("--root", required=True, type=Path, help="repository root")
     return parser.parse_args()
 
@@ -322,10 +322,9 @@ class Checker:
                     # do not validate the target's links a second time from
                     # the symlink's directory.
                     continue
-                if path.relative_to(self.root).as_posix() in CANONICAL_PROTOCOL_FILES:
-                    # Canonical DSH protocol text may contain example links to
-                    # optional records or checks that a smaller repository
-                    # does not carry.
+                if path.relative_to(self.root).as_posix() in TEMPLATE_CONTRACT_FILES:
+                    # Generic contract templates may link to optional records
+                    # or repository checks that a smaller project does not carry.
                     continue
                 try:
                     text = path.read_text(encoding="utf-8")

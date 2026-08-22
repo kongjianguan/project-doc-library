@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify embedded canonical templates before using the Skill."""
+"""Verify protected generic templates before using the Skill."""
 
 from __future__ import annotations
 
@@ -12,18 +12,18 @@ from template_integrity import check_template_integrity, load_manifest, manifest
 def main() -> int:
     skill_root = Path(__file__).resolve().parents[1]
     manifest = load_manifest()
-    canonical, _ = manifest_paths(manifest)
+    protected, _ = manifest_paths(manifest)
     template_root = skill_root / "assets/templates"
     errors = check_template_integrity(skill_root)
-    for relative in canonical:
+    for relative in protected:
         path = template_root / relative
         if path.is_file():
-            print(f"MATCH {relative} {sha256(path)}")
+            print(f"PROTECTED {relative} {sha256(path)}")
     if errors:
         for error in errors:
             print(f"error: {error}", file=sys.stderr)
         return 1
-    print("Embedded canonical templates are intact.")
+    print("Protected generic templates are intact.")
     return 0
 
 

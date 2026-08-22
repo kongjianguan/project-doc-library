@@ -7,7 +7,7 @@ description: Use when bootstrapping or maintaining a repository-local documentat
 
 Build a repository-local documentation system that gives every durable fact one owner, separates design rationale from current reference material, and gives agents a repeatable way to create, update, supersede, translate, validate, and archive documentation.
 
-This skill is guidance, not a script or a request to copy DSH-specific product facts. Preserve the DSH shape where it improves discoverability, but derive names, subsystems, commands, generators, and terminology from the target repository. The canonical DSH protocol templates listed in [references/template-provenance.md](references/template-provenance.md) are copied in full; do not summarize, rewrite, or localize their rules. Their references to optional historical records and project-specific gates are protocol examples, not a requirement to clone DSH's entire repository. Project-generated templates remain target-specific and must be populated from the target repository.
+This skill extracts a project-neutral documentation protocol from DSH. Preserve its useful shape, lifecycle semantics, bilingual pairing rules, and prose discipline, but derive names, subsystems, commands, generators, terminology, and history from the target repository. The protected templates listed in [references/template-provenance.md](references/template-provenance.md) are normalized protocol templates, not DSH product documents; never copy source-project facts into a target repository. Project-generated templates remain target-specific and must be populated from the target repository.
 
 ## Choose a mode
 
@@ -50,7 +50,7 @@ When bilingual documentation is enabled, both sides carry equal authority. Prese
 3. Run the bundled initializer only for missing structure:
 
    ```sh
-   python3 /absolute/path/to/project-doc-library/scripts/init_project_docs.py --root /absolute/path/to/repository
+   python3 /absolute/path/to/project-doc-library/skills/project-doc-library/scripts/init_project_docs.py --root /absolute/path/to/repository
    ```
 
    Add `--no-bilingual` only when the repository explicitly does not maintain a second language. The initializer does not overwrite existing files.
@@ -59,7 +59,7 @@ When bilingual documentation is enabled, both sides carry equal authority. Prese
 6. Add validation commands or adapters that the repository can actually run. A rule is not complete when its documented command does not exist.
 7. Run the verifier, the repository's narrow documentation checks, and `git diff --check`. Report missing project-specific adapters instead of claiming DSH parity.
 
-When changing the bundled templates, keep the canonical/adapted split in [references/template-provenance.md](references/template-provenance.md), run the embedded integrity check, and run the hash audit against a local DSH checkout when available.
+When changing the bundled templates, keep the protected/adapted split in [references/template-provenance.md](references/template-provenance.md), run the embedded integrity check, and run the template-policy audit. A local DSH checkout is provenance material only; it is never a source for target-facing project facts.
 
 ## Maintenance workflow
 
@@ -81,13 +81,13 @@ Use [references/validation.md](references/validation.md) for the minimum checks.
 After human review of active bilingual pairs, refresh their sidecars with:
 
 ```sh
-python3 /absolute/path/to/project-doc-library/scripts/refresh_i18n_sidecars.py --root /absolute/path/to/repository --write
+python3 /absolute/path/to/project-doc-library/skills/project-doc-library/scripts/refresh_i18n_sidecars.py --root /absolute/path/to/repository --write
 ```
 
 After writing documentation, run:
 
 ```sh
-python3 /absolute/path/to/project-doc-library/scripts/lint_prose.py --root /absolute/path/to/repository
+python3 /absolute/path/to/project-doc-library/skills/project-doc-library/scripts/lint_prose.py --root /absolute/path/to/repository
 ```
 
 ## Reporting
