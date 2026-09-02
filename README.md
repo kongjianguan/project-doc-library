@@ -5,6 +5,7 @@ Reusable Codex skills maintained as independent packages.
 ## Available Skills
 
 - [project-doc-library](skills/project-doc-library/SKILL.md): bootstrap and maintain a repository-local documentation system modeled on DeepSeek Harness.
+- [find-simplifications](skills/find-simplifications/SKILL.md): find and document evidence-backed opportunities to remove, merge, demote, or replace unnecessary complexity.
 
 ## Repository Layout
 

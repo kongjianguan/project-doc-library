@@ -1,0 +1,4 @@
+interface:
+  display_name: "Find Simplifications"
+  short_description: "Audit repositories for evidence-backed simplifications"
+  default_prompt: "Use $find-simplifications to audit this repository for evidence-backed simplification opportunities."
